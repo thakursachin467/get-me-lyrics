@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navbar from './Components/Layout/Navbar';
 import Main from './Components/Layout/Main';
 import Lyrics from './Components/Tracks/Lyrics';
+import Artist from './Components/Tracks/Artist'
 import Provider from './Context';
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
               <Switch>
                 <Route exact path='/' component={Main} />
                 <Route exact path='/lyrics/track/:track_id' component={Lyrics} />
+                <Route exact path='/artist/:artist_id' component={Artist} />
 
               </Switch>
 
