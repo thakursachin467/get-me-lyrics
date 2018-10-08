@@ -16,6 +16,13 @@ const reducer = (state, action) => {
         ...state,
         loading: true
       }
+    case 'CHANGE_PAGE':
+
+      return {
+        ...state,
+        defaultPage: action.payload
+      }
+
     default:
       return {
         ...state
@@ -28,20 +35,25 @@ export default class Provider extends Component {
     track_list: [],
     heading: 'Top 10 Tracks this week',
     loading: true,
-    dispatch: action => this.setState(state => reducer(state, action))
+    dispatch: action => this.setState(state => reducer(state, action)),
+    defaultPage: 1
   }
 
-  componentDidMount() {
 
-    axios.get(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=2&page_size=10&country=us&f_has_lyrics=1&apikey=${process.env.REACT_APP_MM_KEY}`)
+
+
+
+  componentDidMount() {
+    axios.get(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=${this.state.defaultPage}&page_size=10&country=us&f_has_lyrics=1&apikey=${process.env.REACT_APP_MM_KEY}`)
       .then((res) => {
-        console.log(res.data);
+
         this.setState({ track_list: res.data.message.body.track_list, loading: false })
       })
       .catch((err) => console.log(err))
 
   }
   render() {
+
     return (
       <Context.Provider value={this.state}>
         {this.props.children}
